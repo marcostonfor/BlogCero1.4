@@ -84,8 +84,7 @@ sudo chmod -R 775 /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/posts
 
 Ahora puedes acceder al proyecto desde tu navegador.
 
--   **Panel de Administración**: `http://localhost/BlogCero1.2-estatic/admin/`
--   **Página Pública**: `http://localhost/BlogCero1.2-estatic/`
+-   **Página Pública**: `http://servidorweb/BlogCero1.2-estatic/`
 
 ## 📂 Estructura de Carpetas
 
