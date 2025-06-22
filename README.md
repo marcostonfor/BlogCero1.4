@@ -80,11 +80,6 @@ sudo chmod -R 775 /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/posts
 
 > **Nota:** Si estás en un entorno de desarrollo local como XAMPP en Windows, es posible que no necesites este paso, pero en un servidor Linux de producción es **esencial**.
 
-### 6. ¡Listo!
-
-Ahora puedes acceder al proyecto desde tu navegador.
-
--   **Página Pública**: `http://servidorweb/BlogCero1.2-estatic/`
 
 ## 📂 Estructura de Carpetas
 
