@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../parser/Parsedown.php';
+require_once __DIR__ . '/../../../mdParser/Parsedown.php';
 
 class Publish_view implements Post_publish_interface
 {
@@ -8,7 +8,7 @@ class Publish_view implements Post_publish_interface
     {
         date_default_timezone_set('Europe/Madrid'); // o tu zona real
         // echo "Hora actual del servidor: " . date('Y-m-d H:i:s');
-        $postsDir = __DIR__ . '/../posts';
+        $postsDir = __DIR__ . '/../Published';
         if (!is_dir($postsDir)) {
             echo "<p>Error: la carpeta de publicaciones no existe.</p>";
             return;
@@ -93,65 +93,4 @@ HTML;
         echo "</section>\n";
     }
 
-    /* public function new_article(): void
-    {
-
-        $postsDir = __DIR__ . '/../posts';
-        $archivos = array_filter(scandir($postsDir), fn($f) => pathinfo($f, PATHINFO_EXTENSION) === 'md');
-
-        $parser = new Parsedown(); // Parser Markdown -> HTML
-
-        $html = "<h2>Publicaciones en Markdown</h2>\n";
-        ?>
-        <section>
-            <!-- <h2>Publicaciones en Markdown</h2> -->
-
-            <?php foreach ($archivos as $archivo): ?>
-                <?php
-                $ruta = $postsDir . '/' . $archivo;
-                $contenido = file_get_contents($ruta);
-                $html = $parser->text($contenido);
-                ?>
-                <article>
-                    <h2><?= htmlspecialchars($archivo) ?></h2>
-                    <div class="markdown-body">
-                        <?= $html ?>
-                    </div>
-                </article>
-            <?php endforeach; ?>
-        </section>
-        <?php
-    } */
 }
-/* 
-
- */
-/*  public function new_article(): string
-   {
-
-       $postsDir = __DIR__ . '/posts';
-       $archivos = array_filter(scandir($postsDir), fn($f) => pathinfo($f, PATHINFO_EXTENSION) === 'md');
-
-       $parser = new Parsedown(); // Parser Markdown -> HTML
-
-       foreach ($archivos as $archivo) {
-           $ruta = $postsDir . '/' . $archivo;
-           $contenido = file_get_contents($ruta);
-           $html = $parser->text($contenido);
-           return <<<HTML
-<section>
-       <h2>Publicaciones en Markdown</h2>
-
-           <article>
-               <h2>{$archivo}</h2>
-               <div class="markdown-body">
-                   {$html}
-               </div>
-           </article>
-   </section>
-HTML;
-       }
-
-       return "";
-
-   } */

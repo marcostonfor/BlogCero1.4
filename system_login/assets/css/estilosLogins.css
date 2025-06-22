@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-body {
-  margin: 0;
-  padding: 0;
+#login_header {
   text-align: center;
-  font-family: "Roboto", sans-serif;
+}
+
+.login_align_center {
+  text-align: center;
 }
 
 #system_login {

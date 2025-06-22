@@ -71,11 +71,11 @@ Abre una terminal en tu servidor y ejecuta los siguientes comandos, reemplazando
 ```bash
 # Dar propiedad de las carpetas clave al usuario del servidor web
 sudo chown -R www-data:www-data /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Draft
-sudo chown -R www-data:www-data /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/posts
+sudo chown -R www-data:www-data /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Published
 
 # Asegurar que el servidor tenga permisos de lectura, escritura y ejecución
 sudo chmod -R 775 /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Draft
-sudo chmod -R 775 /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/posts
+sudo chmod -R 775 /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Published
 ```
 
 > **Nota:** Si estás en un entorno de desarrollo local como XAMPP en Windows, es posible que no necesites este paso, pero en un servidor Linux de producción es **esencial**.

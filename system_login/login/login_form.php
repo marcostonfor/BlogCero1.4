@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de acceso</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/estilosLogins.css">
 </head>
 
 <body>
     <?php
 
     require_once __DIR__ . '/../partials/header.php'; ?>
+    <div class="login_align_center">
     <h1>LOGIN</h1>
     <span><small>OR</small> <a href="../signup/signup.php">Registro</a></span>
-
+    </div>
     <?php if (!empty($message)): ?>
         <p>
             <?php echo $message ?>

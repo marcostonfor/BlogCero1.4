@@ -1,228 +1,211 @@
 <?php
 // editor.php
-
-
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../mdParser/Parsedown.php';
 $draftDir = __DIR__ . '/Draft';
-$publishedDir = __DIR__ . '/Published';
+$publishedDir = __DIR__ . '/Published'; // Estandarizamos el nombre de la carpeta
 
 $drafts = array_filter(scandir($draftDir), fn($f) => pathinfo($f, PATHINFO_EXTENSION) === 'md');
 $published = array_filter(scandir($publishedDir), fn($f) => pathinfo($f, PATHINFO_EXTENSION) === 'md');
-
-
-
-// $draftDir = __DIR__ . '/Draft';
 
 // Asegurarse de que el directorio exista
 if (!is_dir($draftDir)) {
     mkdir($draftDir, 0777, true);
 }
 
-// Listar archivos .md
-$archivos = array_filter(
-    scandir($draftDir),
-    fn($f) =>
-    pathinfo($f, PATHINFO_EXTENSION) === 'md' && is_file($draftDir . '/' . $f)
-);
-
 $contenido = '';
-$nombreArchivo = '';
+$nombreArchivoCompleto = ''; // ej: 'Draft/mi-post.md'
+$nombreArchivoBase = '';     // ej: 'mi-post.md'
+$rutaArchivoOrigen = '';     // ej: 'Draft'
 
-if (isset($_GET['archivo'])) {
-    $archivoSolicitado = basename($_GET['archivo']);
-    $rutaSolicitada = dirname($_GET['archivo']); // Draft o Published
-    $rutaArchivo = __DIR__ . '/' . $rutaSolicitada . '/' . $archivoSolicitado;
+if (isset($_GET['archivo']) && !empty($_GET['archivo'])) {
+    $nombreArchivoCompleto = $_GET['archivo'];
+    $nombreArchivoBase = basename($nombreArchivoCompleto);
+    $rutaArchivoOrigen = dirname($nombreArchivoCompleto);
 
-    if (file_exists($rutaArchivo)) {
-        $contenido = file_get_contents($rutaArchivo);
-        $nombreArchivo = $rutaSolicitada . '/' . $archivoSolicitado;
+    // Medida de seguridad: asegurar que la ruta sea una de las permitidas.
+    if (in_array($rutaArchivoOrigen, ['Draft', 'Published'])) { // <-- Changed to 'posts' here
+        $rutaAbsoluta = __DIR__ . '/' . $nombreArchivoCompleto;
+        if (file_exists($rutaAbsoluta)) {
+            $contenido = file_get_contents($rutaAbsoluta);
+        }
+    } else {
+        // Si la ruta no es válida, se resetea para no cargar nada.
+        $nombreArchivoCompleto = '';
     }
 }
-
-// Si se pasa un archivo por GET, cargarlo
-/* if (isset($_GET['archivo'])) {
-    $archivoSolicitado = basename($_GET['archivo']);
-    $rutaArchivo = $draftDir . '/' . $archivoSolicitado;
-
-    if (file_exists($rutaArchivo)) {
-        $contenido = file_get_contents($rutaArchivo);
-        $nombreArchivo = $archivoSolicitado;
-    }
-} */
 ?>
-<!DOCTYPE html>
-<html lang="es">
+<style>
+    /* Estilos que antes estaban en editor.php */
+    #editor {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        font-family: sans-serif;
+        padding: 20px;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <title>Editor Markdown</title>
-    <style>
-        body {
-            background-color: hsl(43, 89%, 38%);
-        }
-        #editor {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            font-family: sans-serif;
-            padding: 20px;
-        }
+    #markdownForm {
+        width: 48%;
+    }
 
-        #markdownForm {
-            width: 48%;
-        }
+    textarea {
+        width: 100%;
+        height: 400px;
+    }
 
-        textarea {
-            width: 100%;
-            height: 400px;
-        }
+    #preview {
+        width: 20rem;
+        height: 540px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        overflow-y: scroll;
+    }
 
-        #preview {
-            width: 20rem;
-            height: 540px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            overflow-y: scroll;
-        }
+    input[type="text"] {
+        width: 100%;
+        padding: 5px;
+    }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 5px;
-        }
+    select {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
 
-        select {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
+    .linkPreview {
+        width: fit-content;
+        padding: 0.5rem 1rem;
+        margin: 0.5rem 0;
+    }
 
-        .linkPreview {
-            width: fit-content;
-            padding: 0.5rem 1rem;
-            margin: 0.5rem 0;
-        }
+    .linkPreview a {
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        color: green;
+        background-color: yellow;
+        border-radius: 0.3rem;
+    }
 
-        .linkPreview a {
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            color: green;
-            background-color: yellow;
-            border-radius: 0.3rem;
-        }
+    #btngroup {
+        margin: 0 auto;
+        margin-top: 0.5rem;
+        padding: 0.3rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.3rem;
+        border: 0;
+    }
 
-        #btngroup {
-            margin: 0 auto;
-            margin-top: 0.5rem;
-            padding: 0.3rem;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.3rem;
-            border: 0;
-        }
+    #btngroup button {
+        padding: 0.3rem 0.5rem;
+    }
 
-        #btngroup button {
-            padding: 0.3rem 0.5rem;
-        }
+    button[type="submit"]:nth-child(1) {
+        background-color: dodgerblue;
+    }
 
-        button[type="submit"]:nth-child(1) {
-            background-color: dodgerblue;
-        }
+    button[type="submit"]:last-child {
+        background-color: darkolivegreen;
+    }
 
-        button[type="submit"]:last-child {
-            background-color: darkolivegreen;
-        }
+    button[type="reset"] {
+        background-color: #b7610b;
+    }
+</style>
+<!-- Este archivo ahora es un componente, no una página completa -->
+<h1>Editor Markdown</h1>
+<section id="editor">
+    <form id="markdownForm" method="POST" action="<?php echo BASE_URL; ?>/admin/editorParaArticulos/guardar.php">
+        <h2>Crear o editar archivo Markdown</h2>
 
-        button[type="reset"] {
-            background-color: #b7610b;
-        }
-    </style>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.css">
-</head>
+        <label>Seleccionar archivo existente:</label>
+        <select onchange="if (this.value) window.location.href = this.value;">
+            <option value="">-- Selecciona un archivo --</option>
 
-<body>
-    <h1>Editor Markdown</h1>
+            <optgroup label="Borradores">
+                <?php foreach ($drafts as $archivo): ?>
+                    <option value="?archivo=<?= urlencode('Draft/' . $archivo) ?>" <?= $nombreArchivoCompleto === 'Draft/' . $archivo ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($archivo) ?>
+                    </option>
+                <?php endforeach; ?>
+            </optgroup>
 
-    <section id="editor">
-        <form id="markdownForm" method="POST" action="guardar.php">
-            <h2>Crear o editar archivo Markdown</h2>
+            <optgroup label="Publicados">
+                <?php foreach ($published as $archivo): ?>
+                    <option value="?archivo=<?= urlencode('Published/' . $archivo) ?>"
+                        <?= $nombreArchivoCompleto === 'Published/' . $archivo ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($archivo) ?>
+                    </option>
+                <?php endforeach; ?>
+            </optgroup>
+        </select>
 
-            <label>Seleccionar archivo existente:</label>
-            <label>Seleccionar archivo existente:</label>
-            <select onchange="location = this.value">
-                <option value="">-- Selecciona un archivo --</option>
+        <label>Nombre del archivo (.md):</label>
+        <input type="text" name="filename" value="<?= htmlspecialchars($nombreArchivoCompleto) ?>"
+            placeholder="Draft/ejemplo.md" required>
 
-                <optgroup label="Borradores">
-                    <?php foreach ($drafts as $archivo): ?>
-                        <option value="?archivo=<?= urlencode('Draft/' . $archivo) ?>" <?= $nombreArchivo === 'Draft/' . $archivo ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($archivo) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </optgroup>
+        <label>Contenido Markdown:</label>
+        <textarea name="content" id="content" oninput="actualizarVista()"><?= htmlspecialchars($contenido) ?></textarea>
+        <fieldset id="btngroup">
+            <button type="submit"
+                data-action="<?php echo BASE_URL; ?>/admin/editorParaArticulos/guardar.php">Guardar</button>
+            <button type="reset">Limpiar</button>
+            <button type="submit"
+                data-action="<?php echo BASE_URL; ?>/admin/editorParaArticulos/post.php">Publicar</button>
+        </fieldset>
+    </form>
 
-                <optgroup label="Publicados">
-                    <?php foreach ($published as $archivo): ?>
-                        <option value="?archivo=<?= urlencode('Published/' . $archivo) ?>" <?= $nombreArchivo === 'Published/' . $archivo ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($archivo) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </optgroup>
-            </select>
-
-
-            <label>Nombre del archivo (.md):</label>
-            <input type="text" name="filename" value="<?= htmlspecialchars($nombreArchivo) ?>" placeholder="ejemplo.md"
-                required>
-
-            <label>Contenido Markdown:</label>
-            <textarea name="content" id="content"
-                oninput="actualizarVista()"><?= htmlspecialchars($contenido) ?></textarea>
-            <fieldset id="btngroup">
-                <button type="submit" data-action="guardar.php">Guardar</button>
-                <button type="reset">Limpiar</button>
-                <button type="submit" data-action="post.php">Publicar</button>
-            </fieldset>
+    <?php if ($nombreArchivoCompleto): ?>
+        <form method="POST" action="<?php echo BASE_URL; ?>/admin/editorParaArticulos/eliminar.php"
+            onsubmit="return confirm('¿Deseas eliminar este archivo publicado?')">
+            <input type="hidden" name="archivo" value="<?= htmlspecialchars($nombreArchivoBase) ?>">
+            <input type="hidden" name="origen" value="<?= htmlspecialchars($rutaArchivoOrigen) ?>">
+            <button type="submit" style="background:#c00;color:#fff;">Eliminar</button>
         </form>
-
-        <?php if ($nombreArchivo): ?>
-            <form method="POST" action="eliminar.php" onsubmit="return confirm('¿Deseas eliminar este archivo publicado?')">
-                <input type="hidden" name="archivo" value="<?= htmlspecialchars($archivo) ?>">
-                <input type="hidden" name="origen" value="posts">
-                <button type="submit" style="background:#c00;color:#fff;">Eliminar</button>
-            </form>
-        <?php endif; ?>
-        <div>
-            <h2>Vista previa</h2>
-            <div id="preview" class="markdown-body"></div>
-            <div class="linkPreview">
-                <a href="factory/view_post.php" target="_blank">Página de posts</a>
-            </div>
+    <?php endif; ?>
+    <div>
+        <h2>Vista previa</h2>
+        <div id="preview" class="markdown-body"></div>
+        <div class="linkPreview">
+            <a href="<?php echo BASE_URL; ?>/admin/editorParaArticulos/factory/view_post.php" target="_blank">Página de
+                posts</a>
         </div>
-    </section>
-
-    <script>
-        function actualizarVista() {
-            const md = document.getElementById('content').value;
-            fetch('preview.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: md, mode: 'gfm' })
+    </div>
+</section>
+<script>
+    function actualizarVista() {
+        const md = document.getElementById('content').value;
+        // Construimos una URL absoluta para que la llamada a fetch funcione sin importar desde dónde se incluya este archivo.
+        const previewUrl = "<?php echo BASE_URL; ?>/admin/editorParaArticulos/preview.php";
+        fetch(previewUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: md, mode: 'gfm' })
+        })
+            .then(res => {
+                // Si la respuesta no es OK (ej. un error 400 o 500), lanzamos un error.
+                if (!res.ok) {
+                    // Devolvemos la promesa para que el .catch() la reciba.
+                    return res.text().then(text => { throw new Error(text) });
+                }
+                return res.text();
             })
-                .then(res => res.text())
-                .then(html => document.getElementById('preview').innerHTML = html);
-        }
-
-        if (document.getElementById('content').value.trim() !== '') {
-            actualizarVista();
-        }
-        ///////////////////////////////////////////////////////////////#c00
-        document.querySelectorAll('#markdownForm button[type="submit"]').forEach(btn => {
-            btn.addEventListener('click', function (e) {
-                const form = document.getElementById('markdownForm');
-                form.action = this.getAttribute('data-action');
+            .then(html => document.getElementById('preview').innerHTML = html)
+            .catch(err => {
+                console.error('Error en la previsualización:', err);
+                document.getElementById('preview').innerHTML = `<div style="color:red; font-family:monospace;">${err.message.replace(/\n/g, '<br>')}</div>`;
             });
+    }
+
+    if (document.getElementById('content').value.trim() !== '') {
+        actualizarVista();
+    }
+    ///////////////////////////////////////////////////////////////#c00
+    document.querySelectorAll('#markdownForm button[type="submit"]').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            const form = document.getElementById('markdownForm');
+            form.action = this.getAttribute('data-action');
         });
-    </script>
-
-</body>
-
-</html>
+    });
+</script>

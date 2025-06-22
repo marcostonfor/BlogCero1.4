@@ -1,5 +1,5 @@
 <?php
-$publishedDir = __DIR__ . '/posts';
+$publishedDir = __DIR__ . '/Published';
 
 if (!is_dir($publishedDir)) {
     mkdir($publishedDir, 0777, true);

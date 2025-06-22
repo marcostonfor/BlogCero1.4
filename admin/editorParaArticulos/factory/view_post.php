@@ -1,13 +1,12 @@
 <?php
 require_once __DIR__ . '/article_component.php';
-require_once __DIR__ . '/article_component.php';
-require_once __DIR__ . '/../parser/Parsedown.php';
+require_once __DIR__ . '/../../../mdParser/Parsedown.php';
 
 $parser = new Parsedown();
 
 if (isset($_GET['post'])) {
     $requested = basename($_GET['post']); // sanitiza
-    $filepath = realpath(__DIR__ . "/../posts/$requested.md");
+    $filepath = realpath(__DIR__ . "/../Published/$requested.md");
 
     if ($filepath && file_exists($filepath)) {
         $content = file_get_contents($filepath);
@@ -141,7 +140,7 @@ if (isset($_GET['post'])) {
         <aside id="post_publicados">
 
             <?php
-            $files = glob("../posts/*.md");
+            $files = glob("../Published/*.md");
             $linksPerPage = 5; // Número de enlaces por página en el menú lateral
             $currentPage = isset($_GET['menu_page']) ? max(1, intval($_GET['menu_page'])) : 1;
 

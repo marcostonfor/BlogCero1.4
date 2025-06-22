@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de registro</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/estilosLogins.css">
 </head>
 
 <body>
@@ -17,8 +17,10 @@
             <?php echo $message ?>
         </p>
     <?php endif; ?>
+    <div class="login_align_center">
     <h1>Registro</h1>
     <span><small>OR</small> <a href="../login/login.php">Login</a></span>
+    </div>
     <form action="signup.php" method="post" id="singup">
         <label for="email">Campo e-Mail</label>
         <input type="email" name="email" id="email" placeholder="introduzca su e-Mail">

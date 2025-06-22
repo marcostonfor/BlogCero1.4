@@ -1,7 +1,7 @@
 <?php
 // Mover los includes al principio para que BASE_URL y el Singleton estén siempre disponibles.
 require_once __DIR__ . '/../../router.php';
-require_once __DIR__ . '/../../system_login/dbSingleton/databaseSingleton.php';
+require_once ROOT_PATH . '/system_login/dbSingleton/databaseSingleton.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $iconosSeleccionados = isset($_POST['opciones_control']) ? $_POST['opciones_control'] : [];
@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'github' => ['clase' => 'fa', 'unicode' => 'f09b'],
         'youtube' => ['clase' => 'fa', 'unicode' => 'f167'],
         'pinterest' => ['clase' => 'fa', 'unicode' => 'f0d2'],
-        'tumbler' => ['clase' => 'fa', 'unicode' => 'f173'], // Considerar corregir a 'tumblr' si es un typo
-        'flicker' => ['clase' => 'fa', 'unicode' => 'f16e'], // Considerar corregir a 'flickr' si es un typo
+        'tumbler' => ['clase' => 'fa', 'unicode' => 'f173'],
+        'flicker' => ['clase' => 'fa', 'unicode' => 'f16e'],
         'vine' => ['clase' => 'fa', 'unicode' => 'f1ca'],
         'reddit' => ['clase' => 'fa', 'unicode' => 'f1a1'],
         'skype' => ['clase' => 'fa', 'unicode' => 'f17e'],
@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!empty($iconosSeleccionados)) {
             // 2. Insertar/Actualizar y publicar solo los seleccionados
-            // Asumimos que la tabla social_media tiene una clave única en 'nombre'
             $stmt = $pdo->prepare("
                 INSERT INTO social_media (nombre, clase, unicode, publicado) 
                 VALUES (:nombre, :clase, :unicode, 1) 

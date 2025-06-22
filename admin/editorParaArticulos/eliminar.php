@@ -21,7 +21,7 @@ exit;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archivo'], $_POST['origen'])) {
     $archivo = basename($_POST['archivo']);
     $origen = basename($_POST['origen']); // prevenir path traversal
-    $carpetaPermitida = ['Draft', 'posts'];
+    $carpetaPermitida = ['Draft', 'Published'];
 
     if (!in_array($origen, $carpetaPermitida)) {
         header("Location: editor.php?error=Carpeta no permitida");

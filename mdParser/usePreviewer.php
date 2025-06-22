@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-// require_once __DIR__ . '/../router.php';
+require_once __DIR__ . '/../router.php';
 require_once __DIR__ . '/Parsedown.php';
 require_once __DIR__ . '/previewer.php';
 require_once __DIR__ . '/../components/factoryForComponents.php';
@@ -26,15 +26,17 @@ $previewer->setArchivo('00-README.md');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.css">
     <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/previewer.css">
+
 </head>
 
 <body>
     <div id="header">
-        <?php $header->pageComponents();  ?>
+        <?php $header->pageComponents(); ?>
     </div>
     <section id="navigation">
         <nav>
@@ -43,7 +45,6 @@ $previewer->setArchivo('00-README.md');
     </section>
     <section class="previewermd markdown-body">
         <?php
-        // Renderizar el Markdown del archivo mdExample.md
         try {
             $archivo = $_GET['md'] ?? '00-README.md';
             $previewer->setArchivo($archivo);
@@ -54,6 +55,7 @@ $previewer->setArchivo('00-README.md');
         }
         ?>
     </section>
+
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>
