@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+
+#system_login {
+  margin: 1rem auto;
+}
+
+form#login,
+form#singup {
+  width: 18vw;
+  height: auto;
+  margin: 10vh auto;
+  padding: 1rem 1.6rem;
+  /* border: 0.02rem solid black; */
+  border-radius: 0.2rem;
+  background-color: antiquewhite;
+  box-shadow: 0 0 30px 2px hsl(33, 100%, 88%), 0 0 20px 1px hsl(0, 0%, 0%);
+}
+
+input[type="email"],
+input[type="password"],
+input[type="submit"],
+input[type="reset"] {
+  display: block;
+  margin: 0.3rem auto;
+  margin-top: 1rem;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  border-bottom: 0.1rem ridge dimgray;
+  border-radius: 0.2rem;
+  box-shadow: inset 10rem 10rem 20px 20px hsla(0, 0%, 0%, 0.185),
+    0 0 10px 2px hsla(0, 0%, 0%, 0.7);
+}
+
+label {
+  text-align: start;
+  margin: 1rem auto;
+  margin-left: 0.5rem !important;
+  padding: 0.5rem 1rem;
+}
+
+fieldset {
+  border: 0;
+}
+
+input[type="submit"],
+input[type="reset"] {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.6rem;
+  border: 0;
+  border-radius: 0.2rem;
+  text-shadow: 0 0 2px black;
+  cursor: pointer;
+}
+
+input[type="submit"] {
+  width: 100%;
+  color: aquamarine;
+  background-color: dodgerblue;
+  box-shadow: 0 0 10px 2px hsl(182, 25%, 50%);
+}
+
+input[type="submit"]:hover {
+  background-color: navy;
+  color: dodgerblue;
+  box-shadow: none;
+}
+
+input[type="reset"] {
+  width: 65%;
+  color: sandybrown;
+  background-color: salmon;
+  box-shadow: 0 0 10px 2px hsl(19, 56%, 40%);
+}
+
+input[type="reset"]:hover {
+  background-color: saddlebrown;
+  color: salmon;
+}
+
+.dropbtn {
+  background-color: #3498db;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: #2980b9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
