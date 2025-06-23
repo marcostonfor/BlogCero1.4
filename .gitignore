@@ -8,3 +8,4 @@ notas/
 shell/*
 
 
+!.__install.php

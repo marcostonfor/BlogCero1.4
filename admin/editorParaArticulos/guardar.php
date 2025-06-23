@@ -33,18 +33,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    require_once __DIR__ . '/../../router.php';
     $filepath = $draftDir . '/' . $filename;
 
     // Guardar archivo
     if (file_put_contents($filepath, $content) === false) {
         echo '¿Draft es escribible?: ' . (is_writable(__DIR__ . '/Draft') ? 'Sí' : 'No');
-        echo "<a href='editor.php'>Volver al editor</a>";
-        die("❌ Error: no se pudo guardar el archivo.");
+        // echo "<a href='" . BASE_URL ."/admin/dashboard.php#editor'> Volver al editor</a>";
+        header("Location: " . BASE_URL . "/admin/dashboard.php#editor");
+        exit;
     }
 
-    echo "✅ Archivo guardado correctamente como <strong>$filename</strong> en la carpeta Draft.<br><br>";
-    echo "<a href='editor.php'>Volver al editor</a>";
+    /* echo "✅ Archivo guardado correctamente como <strong>$filename</strong> en la carpeta Draft.<br><br>";
+    echo "<a href='editor.php'>Volver al editor</a>"; */
+    header("Location: " . BASE_URL . "/admin/dashboard.php#editor");
+    exit;
 } else {
-    header("Location: editor.php");
+    header("Location: " . BASE_URL . "/admin/dashboard.php#editor");
     exit;
 }
+
