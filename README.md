@@ -75,6 +75,13 @@ El proyecto necesita un archivo `config.php` en la raíz para conectarse a la ba
 
 > ##### El primer paso hará que se ejecuten los permisos necesarios para el buen funcionamiento del proyecto.
 
+```bash
+# Antes ejecuta esto
+chmod -R g+w /var/www/html/BlogCero1.3
+# si no el script fallará por
+# sin permiso de escritura en el grupo.
+```
+
 > **Nota:** Si estás en un entorno de desarrollo local como XAMPP en Windows, es posible que no necesites este paso, pero en un servidor Linux de producción es **esencial**.
 
 
