@@ -16,7 +16,7 @@ echo "PASO 1: Configurando permisos de carpetas..."
 
 if [ -f "$PERMISSIONS_SCRIPT" ]; then
     # Hacemos el script de permisos ejecutable por si no lo es
-    chmod +x "$PERMISSIONS_SCRIPT"
+  sudo chmod 755 "$PERMISSIONS_SCRIPT"
     # Lo ejecutamos. El script original está diseñado para abrir su propia terminal y pausar.
     bash "$PERMISSIONS_SCRIPT"
 else

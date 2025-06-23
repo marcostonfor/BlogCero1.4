@@ -1,3 +1,10 @@
 config.php
+iniciar_instalacion.sh
+check_permissions.php
+usuarioServidor.php
+system_login/*.md
 
 notas/
+shell/*
+
+
