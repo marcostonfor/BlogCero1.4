@@ -1,7 +1,14 @@
 <?php
+
 // Mover los includes al principio para que BASE_URL y el Singleton estén siempre disponibles.
 require_once __DIR__ . '/../../router.php';
 require_once ROOT_PATH . '/system_login/dbSingleton/databaseSingleton.php';
+
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    die('No hay usuario logueado.');
+}
+$user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $iconosSeleccionados = isset($_POST['opciones_control']) ? $_POST['opciones_control'] : [];
@@ -42,13 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($iconosSeleccionados)) {
             // 2. Insertar/Actualizar y publicar solo los seleccionados
             $stmt = $pdo->prepare("
-                INSERT INTO social_media (nombre, clase, unicode, publicado) 
-                VALUES (:nombre, :clase, :unicode, 1) 
-                ON DUPLICATE KEY UPDATE 
-                    clase = VALUES(clase), 
-                    unicode = VALUES(unicode), 
-                    publicado = 1
-            ");
+    INSERT INTO social_media (nombre, clase, unicode, publicado, user_id) 
+    VALUES (:nombre, :clase, :unicode, 1, :user_id) 
+    ON DUPLICATE KEY UPDATE 
+        clase = VALUES(clase), 
+        unicode = VALUES(unicode), 
+        publicado = 1,
+        user_id = VALUES(user_id)
+");
 
             foreach ($iconosSeleccionados as $nombreIcono) {
                 if (isset($iconDefinitions[$nombreIcono])) {
@@ -56,7 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->execute([
                         ':nombre' => $nombreIcono,
                         ':clase' => $definicion['clase'],
-                        ':unicode' => $definicion['unicode']
+                        ':unicode' => $definicion['unicode'],
+                        ':user_id' => $user_id // Asegúrate de tener este valor disponible
                     ]);
                 }
             }

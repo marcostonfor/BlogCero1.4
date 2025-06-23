@@ -4,7 +4,8 @@ require_once ROOT_PATH . '/system_login/dbSingleton/databaseSingleton.php';
 $titulo_actual = "Blog Cero";
 $menu_items = [
     'menu_home' => 'Inicio',
-    'menu_articles' => 'Artículos',
+    'menu_articles_main' => 'Página de blog',
+    'menu_articles_sub' => 'tu contenido',
     'menu_about' => 'Sobre mi:'
 ];
 
@@ -16,7 +17,7 @@ try {
     $stmt->execute();
     $result = $stmt->fetchColumn();
     if ($result !== false) {
-        $titulo_actual = htmlspecialchars($result);
+        $titulo_actual = htmlspecialchars((string) $result, ENT_QUOTES, 'UTF-8');
     }
 
     // Obtener textos del menú guardados
@@ -25,7 +26,7 @@ try {
         $stmt->execute(['key' => $key]);
         $result = $stmt->fetchColumn();
         if ($result !== false) {
-            $value = htmlspecialchars($result);
+            $value = htmlspecialchars((string) $result, ENT_QUOTES, 'UTF-8');
         }
     }
 
@@ -46,12 +47,12 @@ try {
 
 
         <label for="menu_articles_main">Texto principal (negrita):</label><br>
-        <input type="text" name="menu_articles_main" id="menu_articles_main"
-            value="<?php echo htmlspecialchars($menu_articles_main ?? 'Página de blog'); ?>">
+        <input type="text" id="menu_articles_main" name="menu_articles_main"
+            value="<?php echo $menu_items['menu_articles_main']; ?>">
 
         <label for="menu_articles_sub">Texto secundario (abajo):</label><br>
-        <input type="text" name="menu_articles_sub" id="menu_articles_sub"
-            value="<?php echo htmlspecialchars($menu_articles_sub ?? 'tu contenido'); ?>">
+        <input type="text" id="menu_articles_sub" name="menu_articles_sub"
+            value="<?php echo $menu_items['menu_articles_sub']; ?>">
 
         <label for="menu_about">Texto para sobre mi:</label><br>
         <input type="text" id="menu_about" name="menu_about" value="<?php echo $menu_items['menu_about']; ?>"><br><br>
