@@ -22,61 +22,58 @@ El proyecto aspira a seguir principios de diseño de software sólidos para mant
 
 ---
 
+### Una vez tengas descargado el proyecto
+
+Cúando hayas clonado o descargado el repositorio, lo primero que deberás hacer es meter la carpeta con el nombre que quíeras darle en el directorio raíz del servidor de que dispongas y para que el instalador no falle y todo funcione bien durante su proceso y después, es:
+
+```bash
+# Abrír una ventana de terminal, y ejecutar
+# Ejemplo para Apache2 y Ubuntu:
+
+sudo chmod +x /var/www/html/tuProyecto/iniciar-instalacion.sh
+
+# Luego, una vez hecho solo 
+# ejecuta desde el mismo terminal
+
+./var/www/html/tuProyecto/iniciar-instalacion.sh
+
+# Esto iniciara todo el proceso para la instalacíon.
+```
+
+---
+
 ## 🚀 Instalación
 
 Sigue estos pasos para instalar y ejecutar el proyecto en tu servidor local (como XAMPP, WAMP, o un entorno LAMP en Linux).
 
 ### 1. Prerrequisitos
 
--   Servidor web (Apache o Nginx)
--   PHP (versión 8.0 o superior recomendada)
+-   Servidor web (Apache o Nginx, xampp, etc.)
+-   PHP versión 8.0 o (superior recomendada)
 -   Base de datos MySQL o MariaDB
 -   Git (opcional, para clonar el repositorio)
 
-### 2. Clonar el Repositorio
+### 2. Clonar el Repositorio o descargar .zip
 
 ```bash
-git clone https://github.com/tu-usuario/BlogCero1.2-estatic.git
+git clone https://github.com/tu-usuario/BlogCero.git
 cd BlogCero1.2-estatic
 ```
 
 ### 3. Configurar la Base de Datos
 
 1.  Abre tu gestor de base de datos (como phpMyAdmin).
-2.  Crea una nueva base de datos. Por ejemplo, `dbForBlogCero`.
-3.  Selecciona la base de datos recién creada y ve a la pestaña **Importar**.
-4.  Selecciona el archivo `database/schema.sql` del proyecto y ejecútalo. Esto creará todas las tablas necesarias.
+2.  Crea una nueva base de datos. Por ejemplo, `dbForTuBlog`.
+    - > La base de datos debe peramanecer vacía y sin tablas,  
+    las creará el instalador. 
 
 ### 4. Configurar la Conexión
 
-El proyecto necesita un archivo `config.php` en la raíz para conectarse a la base de datos. Este archivo **no está en el repositorio** por seguridad (está en `.gitignore`). Debes crearlo tú mismo.
-
-Crea un archivo llamado `config.php` en la raíz del proyecto con el siguiente contenido, reemplazando los valores con tus credenciales:
-
-```php
-<?php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'dbForBlogCero');
-define('DB_USER', 'root'); // Tu usuario de la base de datos
-define('DB_PASS', 'asdfg2'); // Tu contraseña
-define('DB_CHARSET', 'utf8mb4');
-```
+El proyecto necesita un archivo `config.php` en la raíz para conectarse a la base de datos. Este archivo **no está en el repositorio** por seguridad (está en `.gitignore`). El instalador lo crea y escribe en el lo necesario.
 
 ### 5. Configurar Permisos de Carpetas (¡Muy Importante!)
 
-El servidor web (generalmente el usuario `www-data` en Linux) necesita permisos para escribir archivos en ciertas carpetas. Sin esto, funciones como guardar borradores de artículos fallarán.
-
-Abre una terminal en tu servidor y ejecuta los siguientes comandos, reemplazando `/ruta/completa/a/tu/proyecto` con la ruta real a la carpeta `BlogCero1.2-estatic`.
-
-```bash
-# Dar propiedad de las carpetas clave al usuario del servidor web
-sudo chown -R www-data:www-data /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Draft
-sudo chown -R www-data:www-data /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Published
-
-# Asegurar que el servidor tenga permisos de lectura, escritura y ejecución
-sudo chmod -R 775 /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Draft
-sudo chmod -R 775 /ruta/completa/a/tu/proyecto/admin/editorParaArticulos/Published
-```
+> ##### El primer paso hará que se ejecuten los permisos necesarios para el buen funcionamiento del proyecto.
 
 > **Nota:** Si estás en un entorno de desarrollo local como XAMPP en Windows, es posible que no necesites este paso, pero en un servidor Linux de producción es **esencial**.
 
