@@ -5,7 +5,6 @@ usuarioServidor.php
 system_login/*.md
 
 notas/
-shell/*
+shell/
 
 
-!.__install.php

@@ -1,1 +1,0 @@
-# Es un ejemplo de articulo
