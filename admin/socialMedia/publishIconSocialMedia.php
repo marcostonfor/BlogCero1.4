@@ -7,20 +7,23 @@ class PublishIconSocialMedia
         try {
             $pdo = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME . '; charset=utf8',  DB_USER, DB_PASS);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // Nota: Para consistencia, considera usar DatabaseSingleton::getInstance()->getConnection()
+            // si esta clase se instancia en un contexto donde el Singleton es accesible y preferido.
 
-            $stmt = $pdo->query("SELECT clase, unicode FROM social_media WHERE publicado = 1");
+            // Seleccionar 'clase' y 'url' de la base de datos
+            $stmt = $pdo->query("SELECT clase, url FROM social_media WHERE publicado = 1");
             $iconos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $output_html = "<ul id='lista-iconos-publicada' style='list-style:none;padding:0;display:flex;gap:10px;'>";
 
             foreach ($iconos as $icono) {
                 $class = htmlspecialchars($icono['clase'], ENT_QUOTES, 'UTF-8');
-                $unicode = $icono['unicode']; // Se espera un valor hexadecimal limpio, ej: "f082"
+                // Usar '#' como fallback si la URL no está definida o está vacía
+                $url = htmlspecialchars($icono['url'] ?? '#', ENT_QUOTES, 'UTF-8'); 
 
-                // Aseguramos que el unicode sea una cadena hexadecimal no vacía
-                if (!empty($unicode) && ctype_xdigit($unicode)) {
-                    $output_html .= "<li><a href='#'><i class='{$class}' style='font-size:24px'>&#x{$unicode};</i></a></li>";
-                }
+                // Renderizar el icono usando la clase de Font Awesome y la URL
+                // Se añade target='_blank' y rel='noopener noreferrer' para enlaces externos seguros.
+                $output_html .= "<li><a href='{$url}' target='_blank' rel='noopener noreferrer'><i class='{$class}'></i></a></li>";
             }
 
             $output_html .= "</ul>";
@@ -28,6 +31,9 @@ class PublishIconSocialMedia
 
         } catch (PDOException $e) {
             return "Error: " . $e->getMessage();
+            // En un entorno de producción, es mejor no exponer el mensaje de error de la base de datos.
+            // Considera loguear el error y devolver un mensaje genérico como:
+            // return "Error al cargar los iconos de redes sociales.";
         }
     }
 }

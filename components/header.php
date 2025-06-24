@@ -45,7 +45,7 @@ class Header implements ComponentsInterface
                 background-color: #ffe4c4;
             }
         </style>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://kit.fontawesome.com/539486a65b.js" crossorigin="anonymous"></script>
         <header>
             <section id="navigationToolbar">
                 <article>
@@ -53,15 +53,15 @@ class Header implements ComponentsInterface
                 </article>
                 <article id="contentToolbar">
                     <nav id="menuBlog">
-                        <?php require_once __DIR__ . '/partials/menuBlog.php'; ?>
+                        <?php require_once ROOT_PATH . '/components/partials/menuBlog.php'; ?>
                     </nav>
                     <aside class="social-media">
                         <?php
-                        require_once __DIR__ . '/../admin/socialMedia/publishIconSocialMedia.php';
+                        require_once ROOT_PATH . '/admin/socialMedia/publishIconSocialMedia.php';
                         $iconList = new PublishIconSocialMedia();
                         echo $iconList->publish(); ?>
                     </aside>
-                    <?php require_once __DIR__ . '/../system_login/allLogin.php'; ?>
+                    <?php require_once ROOT_PATH . '/system_login/allLogin.php'; ?>
                 </article>
             </section>
         </header>

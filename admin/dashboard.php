@@ -25,6 +25,8 @@ $header = FactoryForComponents::renderComponents('header');
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/539486a65b.js" crossorigin="anonymous"></script>
     <style>
         /* Estilos para los mensajes de notificación (flash message) */
         .flash-message {
@@ -49,6 +51,7 @@ $header = FactoryForComponents::renderComponents('header');
                 <button class="tablinks" onclick="openTab(event, 'socialMedia')">Social Media icons</button>
                 <button class="tablinks" onclick="openTab(event, 'editor')">Editor para artículos</button>
                 <button class="tablinks" onclick="openTab(event, 'config')">Configuraciones</button>
+                <button class="tablinks" onclick="openTab(event, 'subidaPaginas')">Subida de páginas</button>
             </div>
         </aside>
         <section id="contentForDashboard">
@@ -74,6 +77,10 @@ $header = FactoryForComponents::renderComponents('header');
             <div id="config" class="tabcontent">
                 <h3>Configuracíon del sitio</h3>
                 <?php require_once __DIR__ . '/configuracion/siteConfigIU.php'; ?>
+            </div>
+            <div id="subidaPaginas" class="tabcontent">
+                <h3>Subida de contenidos</h3>
+                <?php require_once __DIR__ . '/subirArchivos/subirArchivo.php'; ?>
             </div>
         </section>
     </section>

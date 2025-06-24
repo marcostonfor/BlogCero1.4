@@ -48,5 +48,6 @@ body {
 #navigation nav a {
     font-family: 'Frijole', sans-serif;
     text-shadow: 0.1vh 0.1vw 10px antiquewhite;
+    font-size: xx-small;
 }
 
