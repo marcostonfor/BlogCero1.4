@@ -1,1 +1,0 @@
-### Esta prueba es para comprobar la redireccion delos links y headers.
