@@ -4,41 +4,24 @@ BlogCero es un sistema de gestión de contenidos (CMS) ligero y personal, constr
 
 ## ✨ Características Principales
 
--   **Panel de Administración Seguro**: Sistema de login para acceder a las funciones de gestión.
--   **Editor de Artículos Markdown**: Crea y guarda borradores (`Drafts`) de artículos escritos en Markdown.
--   **Publicación de Contenidos**: Un sistema para "publicar" los borradores, haciéndolos visibles en la parte pública del blog.
--   **Gestión de Iconos Sociales**: Permite seleccionar y mostrar en el sitio los iconos de tus redes sociales.
--   **Paginación de Artículos**: Los artículos publicados se muestran en páginas para una mejor navegación.
+- **Panel de Administración Seguro**: Sistema de login para acceder a las funciones de gestión.
+- **Editor de Artículos Markdown**: Crea y guarda borradores (`Drafts`) de artículos escritos en Markdown.
+- **Publicación de Contenidos**: Un sistema para "publicar" los borradores, haciéndolos visibles en la parte pública del blog.
+- **Gestión de Iconos Sociales**: Permite seleccionar y mostrar en el sitio los iconos de tus redes sociales.
+- **Paginación de Artículos**: Los artículos publicados se muestran en páginas para una mejor navegación.
 
 ## 🏛️ Arquitectura y Patrones de Diseño
 
 El proyecto aspira a seguir principios de diseño de software sólidos para mantener un código limpio, organizado y escalable. Se utilizan (o se planea utilizar) los siguientes patrones y conceptos:
 
--   **Singleton**: Para garantizar una única instancia de conexión a la base de datos (`DatabaseSingleton`).
--   **Repository**: Para abstraer y centralizar el acceso a los datos (ej. `UserRepository`).
--   **Service Layer**: Para encapsular la lógica de negocio (ej. `AuthService`).
--   **Controller**: Para manejar las peticiones del usuario y coordinar la respuesta (ej. `LoginController`).
--   -**Factory**: Para crear objetos complejos de forma desacoplada.
+- **Singleton**: Para garantizar una única instancia de conexión a la base de datos (`DatabaseSingleton`).
+- **Repository**: Para abstraer y centralizar el acceso a los datos (ej. `UserRepository`).
+- **Service Layer**: Para encapsular la lógica de negocio (ej. `AuthService`).
+- **Controller**: Para manejar las peticiones del usuario y coordinar la respuesta (ej. `LoginController`).
+- -**Factory**: Para crear objetos complejos de forma desacoplada.
 
 ---
 
-### Una vez tengas descargado el proyecto
-
-Cúando hayas clonado o descargado el repositorio, lo primero que deberás hacer es meter la carpeta con el nombre que quíeras darle en el directorio raíz del servidor de que dispongas y para que el instalador no falle y todo funcione bien durante su proceso y después, es:
-
-```bash
-# Abrír una ventana de terminal, y ejecutar
-# Ejemplo para Apache2 y Ubuntu:
-
-sudo chmod +x /var/www/html/tuProyecto/iniciar-instalacion.sh
-
-# Luego, una vez hecho solo 
-# ejecuta desde el mismo terminal
-
-./var/www/html/tuProyecto/iniciar-instalacion.sh
-
-# Esto iniciara todo el proceso para la instalacíon.
-```
 
 ---
 
@@ -48,42 +31,44 @@ Sigue estos pasos para instalar y ejecutar el proyecto en tu servidor local (com
 
 ### 1. Prerrequisitos
 
--   Servidor web (Apache o Nginx, xampp, etc.)
--   PHP versión 8.0 o (superior recomendada)
--   Base de datos MySQL o MariaDB
--   Git (opcional, para clonar el repositorio)
+- Servidor web (Apache o Nginx, xampp, etc.)
+- PHP versión 8.0 o (superior recomendada)
+- Base de datos MySQL o MariaDB
+- Git (opcional, para clonar el repositorio)
 
 ### 2. Clonar el Repositorio o descargar .zip
 
+
+#### Una vez tengas descargado el proyecto
+
+Cúando hayas clonado o descargado el repositorio, lo primero que deberás hacer es meter la carpeta con el nombre que quíeras darle en el directorio raíz del servidor de que dispongas y para que el instalador no falle y todo funcione bien durante su proceso y después, es:
+
 ```bash
-git clone https://github.com/tu-usuario/BlogCero.git
-cd BlogCero1.2-estatic
+# Abrír una ventana de terminal, y ejecutar
+# Ejemplo para Apache2 y Ubuntu:
+
+sudo chmod 750 /var/www/html/BlogCero1.3
+sudo chown -R $USER:www-data /var/www/html/BlogCero1.3
+#--
+sudo find /var/www/html/BlogCero1.3 -type d -exec chmod 750 {} \;
+sudo find /var/www/html/BlogCero1.3 -type f -exec chmod 770 {} \;
+#--
+sudo chmod g+w /var/www/html/BlogCero1.3
+
 ```
 
 ### 3. Configurar la Base de Datos
 
-1.  Abre tu gestor de base de datos (como phpMyAdmin).
-2.  Crea una nueva base de datos. Por ejemplo, `dbForTuBlog`.
+1. Abre tu gestor de base de datos (como phpMyAdmin).
+2. Crea una nueva base de datos. Por ejemplo, `dbForTuBlog`.
     - > La base de datos debe peramanecer vacía y sin tablas,  
-    las creará el instalador. 
+    las creará el instalador.
 
 ### 4. Configurar la Conexión
 
 El proyecto necesita un archivo `config.php` en la raíz para conectarse a la base de datos. Este archivo **no está en el repositorio** por seguridad (está en `.gitignore`). El instalador lo crea y escribe en el lo necesario.
 
-### 5. Configurar Permisos de Carpetas (¡Muy Importante!)
-
-> ##### El primer paso hará que se ejecuten los permisos necesarios para el buen funcionamiento del proyecto.
-
-```bash
-# Antes ejecuta esto
-chmod -R g+w /var/www/html/BlogCero1.3
-# si no el script fallará por
-# sin permiso de escritura en el grupo.
-```
-
 > **Nota:** Si estás en un entorno de desarrollo local como XAMPP en Windows, es posible que no necesites este paso, pero en un servidor Linux de producción es **esencial**.
-
 
 ## 📂 Estructura de Carpetas
 
