@@ -20,9 +20,17 @@ function generarMenuRecursivo($directorio, $rutaRelativa = '', $isSubmenu = fals
     $ulClass = $isSubmenu ? ' class="submenu"' : '';
     $html = "<ul$ulClass>";
     $items = scandir($directorio);
-
+ 
+    // Lista de carpetas a ignorar en el directorio raíz
+    $carpetasAIgnorar = ['Subidasmd', 'Media'];
+ 
     foreach ($items as $item) {
-        if ($item === '.' || $item === '..' || ($item === 'Subidasmd' && $directorio === $GLOBALS['baseDir'])) {
+        // Ignorar archivos/carpetas ocultos (que empiezan por '.')
+        // y las carpetas específicas en el directorio raíz.
+        if (
+            strpos($item, '.') === 0 ||
+            ($directorio === $GLOBALS['baseDir'] && in_array($item, $carpetasAIgnorar))
+        ) {
             continue;
         }
         $rutaAbsoluta = $directorio . '/' . $item;
