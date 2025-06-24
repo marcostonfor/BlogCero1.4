@@ -47,14 +47,23 @@ Cúando hayas clonado o descargado el repositorio, lo primero que deberás hacer
 # Abrír una ventana de terminal, y ejecutar
 # Ejemplo para Apache2 y Ubuntu:
 
-sudo chmod 750 /var/www/html/BlogCero1.3
-sudo chown -R $USER:www-data /var/www/html/BlogCero1.3
+sudo chmod 750 BlogCero1.3
+sudo chown -R $USER:www-data BlogCero1.3
 #--
-sudo find /var/www/html/BlogCero1.3 -type d -exec chmod 750 {} \;
-sudo find /var/www/html/BlogCero1.3 -type f -exec chmod 770 {} \;
+sudo find BlogCero1.3 -type d -exec chmod 750 {} \;
+sudo find BlogCero1.3 -type f -exec chmod 770 {} \;
 #--
-sudo chmod g+w /var/www/html/BlogCero1.3
+sudo chmod g+w BlogCero1.3
 
+# Una vez corridos estos comandos tal cual,
+# debe insistirse en otra carpeta.
+# Si no obtiene permisos de escritura el servidor
+# sobre ella no funcionara el publicador de páginas.
+# Esto debe ejecutarse desde la ráz del proyecto,
+# lo anteríor desde la raíz del servidor, gracias.
+sudo chmod -R g+w MD/
+sudo chmod -R g+w admin/editorParaArticulos/Draft/
+sudo chmod -R g+w admin/editorParaArticulos/Published/
 ```
 
 ### 3. Configurar la Base de Datos
@@ -69,6 +78,12 @@ sudo chmod g+w /var/www/html/BlogCero1.3
 El proyecto necesita un archivo `config.php` en la raíz para conectarse a la base de datos. Este archivo **no está en el repositorio** por seguridad (está en `.gitignore`). El instalador lo crea y escribe en el lo necesario.
 
 > **Nota:** Si estás en un entorno de desarrollo local como XAMPP en Windows, es posible que no necesites este paso, pero en un servidor Linux de producción es **esencial**.
+
+### 5. Lanza el instalador
+
+En la barra del navegador escribe: `localhost/pryecto/install.php
+debería renderizarse el instalador para la base de datos.
+
 
 ## 📂 Estructura de Carpetas
 
