@@ -1,5 +1,5 @@
 ---
-Title: Para cambíar
+Title: Para sustituír
 ---
 
 # Aquí tu contenido
