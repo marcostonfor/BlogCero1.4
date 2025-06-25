@@ -1,0 +1,91 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.explorer-panel,
+.input-panel {
+    padding: 25px;
+    flex: 1;
+    min-width: 300px;
+}
+
+.explorer-panel {
+    background-color: #fcfdff;
+    border-right: 1px solid #e0e0e0;
+}
+
+h1, h2 {
+    color: #1a253c;
+    border-bottom: 2px solid #eef2f5;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Estilos del árbol de archivos */
+#file-explorer ul {
+    list-style-type: none;
+    padding-left: 20px;
+    margin: 0;
+}
+
+#file-explorer li span {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    width: calc(100% - 16px);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#file-explorer li span:hover {
+    background-color: #eef2f5;
+}
+
+#file-explorer li span.selected {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+/* Iconos para carpetas y archivos */
+#file-explorer span.folder::before { content: '📁 '; margin-right: 5px; }
+#file-explorer span.file::before { content: '📄 '; margin-right: 5px; }
+#file-explorer span.error::before { content: '❌ '; margin-right: 5px; }
+
+/* Estilos del panel de inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.output-input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    font-family: monospace;
+}
