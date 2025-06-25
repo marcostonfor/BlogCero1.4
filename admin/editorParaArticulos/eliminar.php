@@ -1,23 +1,5 @@
-/*
-// eliminar.php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archivo'])) {
-$archivo = basename($_POST['archivo']);
-$ruta = __DIR__ . '/Draft/' . $archivo;
-
-if (file_exists($ruta)) {
-unlink($ruta);
-header("Location: editor.php?mensaje=Archivo eliminado correctamente");
-exit;
-} else {
-header("Location: editor.php?error=Archivo no encontrado");
-exit;
-}
-} else {
-header("Location: editor.php");
-exit;
-}
-*/
 <?php
+require_once __DIR__ . '/../../router.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archivo'], $_POST['origen'])) {
     $archivo = basename($_POST['archivo']);
     $origen = basename($_POST['origen']); // prevenir path traversal
@@ -32,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archivo'], $_POST['or
 
     if (file_exists($ruta)) {
         unlink($ruta);
-        header("Location: editor.php?mensaje=Archivo eliminado correctamente");
+        header("Location: " . BASE_URL . "/admin/dashboard.php#editor");
         exit;
     } else {
         header("Location: editor.php?error=Archivo no encontrado");

@@ -39,15 +39,14 @@ $header = FactoryForComponents::renderComponents('header');
             background-color: #3c444d;
             border-color: #4b545d;
         }
-
-
-
     </style>
 </head>
 
 <body>
     <?php $header->pageComponents(); ?>
     <hr>
+    <a href="<?php echo BASE_URL; ?>/admin/editorParaArticulos/factory/view_post.php">Página de
+        posts</a>
     <section id="panel">
         <aside id="dashboardNavigation">
             <div class="tab">

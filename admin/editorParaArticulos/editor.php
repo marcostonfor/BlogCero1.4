@@ -168,7 +168,7 @@ if (isset($_GET['archivo']) && !empty($_GET['archivo'])) {
         <h2>Vista previa</h2>
         <div id="preview" class="markdown-body"></div>
         <div class="linkPreview">
-            <a href="<?php echo BASE_URL; ?>/admin/editorParaArticulos/factory/view_post.php" target="_blank">Página de
+            <a href="<?php echo BASE_URL; ?>/admin/editorParaArticulos/factory/view_post.php">Página de
                 posts</a>
         </div>
     </div>

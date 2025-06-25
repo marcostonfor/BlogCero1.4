@@ -1,4 +1,3 @@
-el mensaje que es necesario incluir en el .desktop del proyecto es:
 ## Obviamente hay que desplazarse a
 ## la raiz del servidor web para correr estos comandos.
 ## Si no hay que añadír la ruta al nombre de proyecto

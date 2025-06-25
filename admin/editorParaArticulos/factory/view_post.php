@@ -1,6 +1,11 @@
 <?php
+session_start();
 require_once __DIR__ . '/article_component.php';
 require_once __DIR__ . '/../../../mdParser/Parsedown.php';
+require_once __DIR__ . '/../../../components/factoryForComponents.php';
+require_once __DIR__ . '/../../../router.php';
+
+$header = FactoryForComponents::renderComponents('header');
 
 $parser = new Parsedown();
 
@@ -119,6 +124,7 @@ if (isset($_GET['post'])) {
 </head>
 
 <body>
+    <?php $header->pageComponents(); ?>
     <div id="main">
         <section id="section_post">
             <?php
