@@ -43,6 +43,9 @@ function redirigirConMensaje($mensaje)
     header("Location: " . BASE_URL . "/admin/dashboard.php#subidaPaginas");
     exit;
 }
+// Incluimos el archivo centralizado con la función. La ruta es relativa a este archivo.
+require_once __DIR__ . '/../core/utils.php';
+
 require_once __DIR__ . '/../../router.php';
 
 /**
@@ -160,8 +163,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      * y se interrumpe la ejecución del script con un mensaje de error.
      */
 
-    if ($nombre === '' || !in_array($tipo, ['archivo'])) {
-        redirigirConMensaje("❌ Parámetros inválidos para mover el archivo.");
+    if ($nombre === '') {
+        redirigirConMensaje("❌ El nombre del archivo a mover no puede estar vacío.");
+    }
+    if (!in_array($tipo, ['archivo'])) {
+        redirigirConMensaje("❌ Operación no válida. Se intentó mover un elemento que no es un archivo.");
     }
 
     $rutaOrigen = $directorioRaíz . '/' . $nombre;

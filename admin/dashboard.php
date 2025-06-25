@@ -39,6 +39,9 @@ $header = FactoryForComponents::renderComponents('header');
             background-color: #3c444d;
             border-color: #4b545d;
         }
+
+
+
     </style>
 </head>
 
@@ -53,6 +56,7 @@ $header = FactoryForComponents::renderComponents('header');
                 <button class="tablinks" onclick="openTab(event, 'editor')">Editor para artículos</button>
                 <button class="tablinks" onclick="openTab(event, 'config')">Configuraciones</button>
                 <button class="tablinks" onclick="openTab(event, 'subidaPaginas')">Subida de páginas</button>
+                <button class="tablinks" onclick="openTab(event, 'gestionPaginas')">Gestión de contenidos</button>
             </div>
         </aside>
         <section id="contentForDashboard">
@@ -83,54 +87,89 @@ $header = FactoryForComponents::renderComponents('header');
                 <h3>Subida de contenidos</h3>
                 <?php require_once __DIR__ . '/subirArchivos/subirArchivo.php'; ?>
             </div>
+            <div id="gestionPaginas" class="tabcontent">
+                <h3>Gestión de contenidos</h3>
+                <?php require_once __DIR__ . '/core/crearDirectorioYfichero.php'; ?>
+            </div>
         </section>
     </section>
     <script>
-        function openTab(evt, activeTab) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
+        // Función global para cambiar de pestaña, llamada por los botones.
+        function openTab(evt, tabName) {
+            // Ocultar todo el contenido de las pestañas
+            const tabcontent = document.getElementsByClassName("tabcontent");
+            for (let i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
+
+            // Quitar la clase "active" de todos los botones de pestaña
+            const tablinks = document.getElementsByClassName("tablinks");
+            for (let i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(activeTab).style.display = "block";
+
+            // Mostrar la pestaña actual y añadir la clase "active" al botón
+            document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
 
-        // Al cargar la página, revisa si hay un "hash" en la URL para abrir una pestaña específica.
+        // Se ejecuta cuando el DOM está completamente cargado.
         document.addEventListener("DOMContentLoaded", function () {
-            const hash = window.location.hash.substring(1);
-            let buttonToClick;
 
-            if (hash) {
-                // Busca un botón que abra la pestaña con el ID del hash.
-                buttonToClick = document.querySelector(`.tablinks[onclick*="'${hash}'"]`);
+            // Lógica para inicializar las pestañas
+            function initTabs() {
+                const hash = window.location.hash.substring(1);
+                let buttonToClick;
+
+                if (hash) {
+                    // Busca un botón que corresponda al hash en la URL.
+                    buttonToClick = document.querySelector(`.tablinks[onclick*="'${hash}'"]`);
+                }
+
+                // Si no se encuentra un botón para el hash (o no hay hash), usa el predeterminado.
+                if (!buttonToClick) {
+                    buttonToClick = document.getElementById("defaultOpen");
+                }
+
+                // Simula un clic en el botón para abrir la pestaña correcta.
+                if (buttonToClick) {
+                    buttonToClick.click();
+                }
             }
 
-            // Si no se encontró un botón para el hash (o no había hash), usa el botón por defecto.
-            if (!buttonToClick) {
-                buttonToClick = document.getElementById("defaultOpen");
+            // Lógica para manejar los mensajes flash que se desvanecen
+            function initFlashMessages() {
+                const flash = document.querySelector(".flash-message");
+                if (flash) {
+                    setTimeout(() => {
+                        flash.style.transition = "opacity 0.6s ease";
+                        flash.style.opacity = 0;
+                        // Espera a que termine la transición para eliminar el elemento.
+                        setTimeout(() => flash.remove(), 600);
+                    }, 5000); // 5 segundos
+                }
             }
 
-            // Haz clic en el botón determinado.
-            if (buttonToClick) {
-                buttonToClick.click();
+            // Lógica para los checkboxes de iconos de redes sociales
+            function initSocialMediaCheckboxes() {
+                // Usar un selector más específico para evitar conflictos
+                const checkboxes = document.querySelectorAll('#socialMedia input[type="checkbox"]');
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.addEventListener('change', function () {
+                        const maxSeleccionados = 5;
+                        const seleccionados = document.querySelectorAll('#socialMedia input[type="checkbox"]:checked').length;
+                        if (seleccionados > maxSeleccionados) {
+                            this.checked = false; // Desmarca el checkbox actual
+                            alert('Solo puedes seleccionar un máximo de ' + maxSeleccionados + ' iconos.');
+                        }
+                    });
+                });
             }
-        });
 
-        // Cierra automáticamente el mensaje flash después de 5 segundos
-        document.addEventListener("DOMContentLoaded", function () {
-            const flash = document.querySelector(".flash-message");
-            if (flash) {
-                setTimeout(() => {
-                    flash.style.transition = "opacity 0.6s ease";
-                    flash.style.opacity = 0;
-                    setTimeout(() => flash.remove(), 600); // lo quita del DOM después de desvanecerse
-                }, 5000); // 5 segundos
-            }
+            // Inicializar funcionalidades
+            initTabs();
+            initFlashMessages();
+            initSocialMediaCheckboxes();
         });
     </script>
 </body>
