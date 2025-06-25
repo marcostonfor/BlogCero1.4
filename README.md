@@ -47,9 +47,9 @@ Cúando hayas clonado o descargado el repositorio, lo primero que deberás hacer
 > Luego con el explorador de archivos te desplazas hasta la carpeta del proyecto, ahí buscas el directorio en la raíz llamado instalador/, entras y copias los archivos `iniciador.desktop` y `terminal.txt` en el Escritorio/, después has de dar permisos de ejecucion y válidar un metadato.Puedes hacerlo por terminal usando las ordenes una después de la otra 
 
 ```bash
-chmod +x ~/Escritorio/prueba.desktop
+chmod +x Escritorio/prueba.desktop
 
-gio set ~/Escritorio/prueba.desktop metadata::trusted true
+gio set Escritorio/prueba.desktop metadata::trusted true
 ```
 #### Esto debería poder hacer funcionar el iniciador 
 

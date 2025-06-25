@@ -1,3 +1,3 @@
 #!/bin/bash
-xdg-open install.php
+google-chrome http://localhost/BlogCero1.3/install.php
 
