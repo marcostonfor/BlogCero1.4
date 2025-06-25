@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Instalación BlogCero
+Comment=Abre terminal con instrucciones previas
+Exec=gnome-terminal -- bash -ic "cat ~/Escritorio/terminal.txt; echo; read -p 'Pulsa Enter para continuar...'; exec bash"
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;
+X-GNOME-Autostart-enabled=true
+

@@ -52,12 +52,9 @@ body {
 
 #panel {
   height: 100vh;
-  overflow-y: scroll;
 }
 
-#panel #contentForDashboard {
-  height: auto;
-}
+
 
 .container {
   margin: auto;

@@ -1,0 +1,24 @@
+el mensaje que es necesario incluir en el .desktop del proyecto es:
+## Obviamente hay que desplazarse a
+## la raiz del servidor web para correr estos comandos.
+## Si no hay que añadír la ruta al nombre de proyecto
+# Ordenes que se deben ejecutar:
+
+
+sudo chmod 750 BlogCero1.3
+sudo chown -R $USER:www-data BlogCero1.3
+#--
+sudo find BlogCero1.3 -type d -exec chmod 750 {} \;
+sudo find BlogCero1.3 -type f -exec chmod 770 {} \;
+#--
+sudo chmod g+w BlogCero1.3
+
+# Una vez corridos estos comandos tal cual,
+# debe insistirse en otra carpeta.
+# Si no obtiene permisos de escritura el servidor
+# sobre ella no funcionara el publicador de páginas.
+# Esto debe ejecutarse desde la ráz del proyecto,
+# lo anteríor desde la raíz del servidor, gracias.
+sudo chmod -R g+w MD/
+sudo chmod -R g+w admin/editorParaArticulos/Draft/
+sudo chmod -R g+w admin/editorParaArticulos/Published/

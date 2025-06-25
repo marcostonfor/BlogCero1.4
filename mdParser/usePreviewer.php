@@ -31,7 +31,7 @@ $previewer->setArchivo('00-README.md');
         href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.css">
     <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/previewer.css">
-
+    <link rel="shortcut icon" href="../favicon/favicon.ico" type="image/x-icon">
 </head>
 
 <body>

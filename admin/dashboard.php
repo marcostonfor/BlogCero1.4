@@ -27,6 +27,7 @@ $header = FactoryForComponents::renderComponents('header');
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/539486a65b.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="../favicon/favicon.ico" type="image/x-icon">
     <style>
         /* Estilos para los mensajes de notificación (flash message) */
         .flash-message {
