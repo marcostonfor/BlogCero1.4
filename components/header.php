@@ -57,9 +57,14 @@ class Header implements ComponentsInterface
                     </nav>
                     <aside class="social-media">
                         <?php
-                        require_once ROOT_PATH . '/admin/socialMedia/publishIconSocialMedia.php';
-                        $iconList = new PublishIconSocialMedia();
-                        echo $iconList->publish(); ?>
+                        // Solo intentamos mostrar los iconos si hay un usuario con sesión iniciada.
+                        if (isset($_SESSION['user_id'])) {
+                            require_once ROOT_PATH . '/admin/socialMedia/publishIconSocialMedia.php';
+                            $iconList = new PublishIconSocialMedia();
+                            // Pasamos el ID del usuario a la función para que sepa qué iconos mostrar.
+                            echo $iconList->publish($_SESSION['user_id']);
+                        }
+                        ?>
                     </aside>
                     <?php require_once ROOT_PATH . '/system_login/allLogin.php'; ?>
                 </article>

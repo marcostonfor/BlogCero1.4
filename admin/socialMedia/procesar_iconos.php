@@ -35,37 +35,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'vimeo' => ['clase' => 'fa-brands fa-vimeo-v'],
     ];
 
-    $pdo = null;
+
+
     try {
         $pdo = DatabaseSingleton::getInstance()->getConnection();
         $pdo->beginTransaction();
 
-        $pdo->exec("UPDATE social_media SET publicado = 0 WHERE user_id = " . (int)$user_id);
+        // Asegurarse de que solo se trabajen valores únicos y máximo 5
+        $iconosSeleccionados = array_unique($iconosSeleccionados);
+        $iconosSeleccionados = array_slice($iconosSeleccionados, 0, 5);
+
+        // Paso 1: Eliminar TODOS los iconos anteriores del usuario.
+        // Esto asegura que si el usuario deselecciona todo, la tabla quede vacía para él.
+        $stmtDelete = $pdo->prepare("DELETE FROM social_media WHERE user_id = :user_id");
+        $stmtDelete->execute([':user_id' => $user_id]);
 
         if (!empty($iconosSeleccionados)) {
-            $stmt = $pdo->prepare("
-                INSERT INTO social_media (nombre, clase, publicado, user_id) 
-                VALUES (:nombre, :clase, 1, :user_id) 
-                ON DUPLICATE KEY UPDATE 
-                    clase = VALUES(clase), 
-                    publicado = 1
-            ");
+            // Paso 2: Preparar una única inserción masiva para mayor eficiencia.
+            $sql = "INSERT INTO social_media (nombre, clase, publicado, user_id) VALUES ";
+            $placeholders = [];
+            $valuesToBind = [];
+
             foreach ($iconosSeleccionados as $nombreIcono) {
                 if (isset($iconDefinitions[$nombreIcono])) {
-                    $definicion = $iconDefinitions[$nombreIcono];
-                    $stmt->execute([
-                        ':nombre' => $nombreIcono,
-                        ':clase' => $definicion['clase'],
-                        ':user_id' => $user_id
-                    ]);
+                    $placeholders[] = '(?, ?, ?, ?)';
+                    $valuesToBind[] = $nombreIcono;
+                    $valuesToBind[] = $iconDefinitions[$nombreIcono]['clase'];
+                    $valuesToBind[] = 1; // publicado
+                    $valuesToBind[] = $user_id;
                 }
             }
+
+            // Solo ejecutar si hay valores válidos para insertar.
+            if (!empty($placeholders)) {
+                $sql .= implode(', ', $placeholders);
+                $stmtInsert = $pdo->prepare($sql);
+                $stmtInsert->execute($valuesToBind);
+            }
+            $_SESSION['flash_message'] = '✅ Iconos actualizados correctamente.';
+        } else {
+            // Si no se seleccionó ningún icono, el borrado anterior es la única acción necesaria.
+            $_SESSION['flash_message'] = '✅ Todos los iconos han sido eliminados.';
         }
-        $pdo->commit();
-        $_SESSION['flash_message'] = '✅ Iconos actualizados correctamente.';
+        $pdo->commit(); // Confirmar todos los cambios (borrado y/o inserciones)
     } catch (PDOException $e) {
-        if ($pdo && $pdo->inTransaction()) $pdo->rollBack();
-        $_SESSION['flash_message'] = '❌ Error al actualizar los iconos: ' . $e->getMessage();
+        if ($pdo && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        $_SESSION['flash_message'] = '❌ Error en la actualización: ' . $e->getMessage();
     }
 
     header('Location: ' . BASE_URL . '/admin/dashboard.php#socialMedia');

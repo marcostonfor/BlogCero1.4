@@ -37,7 +37,7 @@ function mostrarContenido(string $dir, string $raiz, array $rutasProtegidas, str
             $esProtegida = esCarpetaProtegida($rutaAbs, $rutasProtegidas);
             $contenidoInt = mostrarContenido($rutaAbs, $raiz, $rutasProtegidas, $rutaRelPath);
 
-            $html .= '<li>';
+            $html .= '<li class="padre-submenu">';
             $html .= '<span>📁 ' . htmlspecialchars($item) . '</span>';
 
             if (!$esProtegida) {
@@ -50,7 +50,7 @@ function mostrarContenido(string $dir, string $raiz, array $rutasProtegidas, str
             }
 
             if ($contenidoInt !== '') {
-                $html .= '<ul>' . $contenidoInt . '</ul>';
+                $html .= '<ul class="submenu">' . $contenidoInt . '</ul>';
             }
 
             $html .= '</li>';
@@ -110,15 +110,16 @@ if ($raizMD !== false) {
 
     .explorador-gestion ul {
         list-style: none;
-        padding-left: 25px;
+        padding-left: 15px;
         border-left: 1px dashed #ccc;
         margin-top: 5px;
+        margin-left: 1rem;
     }
 
     .explorador-gestion li {
-        display: flex;
+        /* display: flex;
         justify-content: flex-start;
-        align-items: center;
+        align-items: center; */
         padding: 8px 12px;
         margin: 4px 0;
         border-radius: 4px;
@@ -129,6 +130,13 @@ if ($raizMD !== false) {
         background-color: #f0f0f0;
     }
 
+    .explorador-gestion ul.submenu {
+        display: none;
+    }
+
+    .explorador-gestion li.padre-submenu:hover > ul.submenu {
+        display: block;
+    }
     .explorador-gestion li>span {
         font-weight: 500;
         color: #333;

@@ -1,18 +1,22 @@
 <?php
-require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../router.php'; // Usar router para consistencia
+require_once ROOT_PATH . '/system_login/dbSingleton/databaseSingleton.php';
+
 class PublishIconSocialMedia
 {
-    public function publish()
+    public function publish(int $userId)
     {
         try {
-            $pdo = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME . '; charset=utf8',  DB_USER, DB_PASS);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            // Nota: Para consistencia, considera usar DatabaseSingleton::getInstance()->getConnection()
-            // si esta clase se instancia en un contexto donde el Singleton es accesible y preferido.
+            $pdo = DatabaseSingleton::getInstance()->getConnection();
 
-            // Seleccionar 'clase' y 'url' de la base de datos
-            $stmt = $pdo->query("SELECT clase, url FROM social_media WHERE publicado = 1");
+            // La consulta AHORA filtra por el ID del usuario para mostrar solo sus iconos
+            $stmt = $pdo->prepare("SELECT clase, url FROM social_media WHERE publicado = 1 AND user_id = :user_id LIMIT 5");
+            $stmt->execute([':user_id' => $userId]);
             $iconos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($iconos)) {
+                return ''; // No mostrar nada si el usuario no tiene iconos
+            }
 
             $output_html = "<ul id='lista-iconos-publicada' style='list-style:none;padding:0;display:flex;gap:10px;'>";
 
@@ -30,10 +34,9 @@ class PublishIconSocialMedia
             return $output_html;
 
         } catch (PDOException $e) {
-            return "Error: " . $e->getMessage();
-            // En un entorno de producción, es mejor no exponer el mensaje de error de la base de datos.
-            // Considera loguear el error y devolver un mensaje genérico como:
-            // return "Error al cargar los iconos de redes sociales.";
+            // En producción, es mejor registrar el error que mostrarlo.
+            error_log("Error al publicar iconos sociales: " . $e->getMessage());
+            return "<!-- Error al cargar iconos -->";
         }
     }
 }

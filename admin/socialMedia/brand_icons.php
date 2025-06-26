@@ -79,5 +79,25 @@
             <i class="fa-brands fa-vimeo-v"></i></label>
     </fieldset>
     <button type="submit">Enviar</button>
-    <button type="reset">Eliminar</button>
+    <button type="button" id="btn-eliminar-iconos" style="background-color: #c82333; border-color: #bd2130; color: white;">Eliminar Todos</button>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form.social-media');
+    const btnEliminar = document.getElementById('btn-eliminar-iconos');
+
+    if (form && btnEliminar) {
+        btnEliminar.addEventListener('click', function(event) {
+            event.preventDefault(); // Evita cualquier acción por defecto del botón.
+
+            if (confirm('¿Estás seguro de que quieres eliminar todos los iconos? Esta acción es irreversible.')) {
+                // Desmarca todas las casillas del formulario antes de enviarlo.
+                form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+                // Envía el formulario. El script PHP recibirá una lista vacía de iconos y los borrará.
+                form.submit();
+            }
+        });
+    }
+});
+</script>

@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 $config_file = __DIR__ . '/config.php';
 $template_file = __DIR__ . '/config.template.php';
-$schema_file = __DIR__ . '/database/blog_cero1.3.sql';
+$schema_file = __DIR__ . '/database/blog_cero_1_4uno.sql';
 $message = '';
 $message_type = '';
 
