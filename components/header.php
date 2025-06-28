@@ -1,5 +1,5 @@
 <?php
-
+// session_start();
 class Header implements ComponentsInterface
 {
     public function pageComponents(): void

@@ -43,24 +43,27 @@ $items = scandir($currentDir);
 echo "<h4>Víendo: &#x1f440; " . htmlspecialchars($currentDir) . "</h4>";
 
 
-echo "<div class='grid-container'>";
+
 foreach ($items as $item) {
     if ($item === '.' || $item === '..')
         continue;
     $fullPath = $currentDir . DIRECTORY_SEPARATOR . $item;
     $icon = getIcon($item, $fullPath);
 
-    echo "<div class='grid-item'>";
-    echo "<div class='icon'>$icon</div>";
+    echo "<ul>";
+    echo "<i>$icon</i>";
     if (is_dir($fullPath)) {
+        echo "<li>";
         echo "<a href='?dir=" . urlencode($fullPath) . "'>$item</a>";
+        echo "</li>";
     } else {
         $urlPath = str_replace($_SERVER['DOCUMENT_ROOT'], '', $fullPath);
+        echo "<li>";
         echo "<a href='$urlPath'>$item</a>";
+        echo "</li>";
     }
-    echo "</div>";
+    echo "</ul>";
 }
-echo "</div>";
 
 echo "<style>";
 echo "
@@ -70,26 +73,15 @@ echo "
         margin: 3vh 1vw;
         text-shadow: 0.1vw 0.1vw 3px hsl(19, 100%, 50%);
     }
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
-        width: 85%;
-        margin: auto auto;
+    ul {        
+        list-style-type: none;
     }
-    .grid-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
-        text-align: center;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+    li {
+        border: 0;
         background-color: #f9f9f9;
         transition: transform 0.2s, background-color 0.2s;
     }
-    .grid-item:hover {
+    li:hover {
         transform: scale(1.05);
         background-color: #eaeaea;
     }
@@ -104,11 +96,6 @@ echo "
     }
     a:hover {
         text-decoration: underline;
-    }
-    .back-link {
-        display: block;
-        margin: 20px 0;
-        text-align: left;
     }
 ";
 echo "</style>";
