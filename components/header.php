@@ -1,5 +1,7 @@
 <?php
-// session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 class Header implements ComponentsInterface
 {
     public function pageComponents(): void
@@ -7,7 +9,7 @@ class Header implements ComponentsInterface
         // Conectarse a la base de datos y obtener el título del sitio.
         // Usamos la constante ROOT_PATH para una ruta absoluta y el nombre de archivo corregido.
         require_once ROOT_PATH . '/system_login/dbSingleton/databaseSingleton.php';
-        
+
         $titulo_actual = "Blog Cero"; // Título por defecto
         try {
             $pdo = DatabaseSingleton::getInstance()->getConnection();
@@ -57,13 +59,9 @@ class Header implements ComponentsInterface
                     </nav>
                     <aside class="social-media">
                         <?php
-                        // Solo intentamos mostrar los iconos si hay un usuario con sesión iniciada.
-                        if (isset($_SESSION['user_id'])) {
-                            require_once ROOT_PATH . '/admin/socialMedia/publishIconSocialMedia.php';
-                            $iconList = new PublishIconSocialMedia();
-                            // Pasamos el ID del usuario a la función para que sepa qué iconos mostrar.
-                            echo $iconList->publish($_SESSION['user_id']);
-                        }
+                        require_once ROOT_PATH . '/admin/socialMedia/publishIconSocialMedia.php';
+                        $iconos = (new PublishIconSocialMedia())->publish(1); // Siempre muestra iconos del único usuario
+                        echo $iconos;
                         ?>
                     </aside>
                     <?php require_once ROOT_PATH . '/system_login/allLogin.php'; ?>
