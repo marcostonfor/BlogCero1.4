@@ -3,6 +3,7 @@ require_once __DIR__ . '/../components/factoryForComponents.php';
 require_once __DIR__ . '/../router.php';
 
 $header = FactoryForComponents::renderComponents('header');
+$footer = FactoryForComponents::renderComponents('footer');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,9 @@ $header = FactoryForComponents::renderComponents('header');
     <?php
     $header->pageComponents();
     ?>
+    <div id="footer">
+        <?php $footer->pageComponents(); ?>
+    </div>
 </body>
 
 </html>

@@ -8,6 +8,7 @@ require_once __DIR__ . '/previewer.php';
 require_once __DIR__ . '/../components/factoryForComponents.php';
 
 $header = FactoryForComponents::renderComponents('header');
+$footer = FactoryForComponents::renderComponents('footer');
 // Crear una instancia de Parsedown
 $parser = new Parsedown();
 
@@ -38,6 +39,8 @@ $previewer->setArchivo('00-README.md');
     <div id="header">
         <?php $header->pageComponents(); ?>
     </div>
+    <section style="display: flex; flex-direction: column;">
+    <main id="subir">
     <section id="navigation">
         <nav>
             <?php require_once __DIR__ . '/../dinamicLink/dinamicLink.php'; ?>
@@ -55,7 +58,11 @@ $previewer->setArchivo('00-README.md');
         }
         ?>
     </section>
-
+    </main>
+    <div id="footer" style="display: block;">
+        <?php $footer->pageComponents(); ?>
+    </div>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 </body>

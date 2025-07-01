@@ -16,12 +16,14 @@ try {
     $menu_articles_main = $results['menu_articles_main'] ?? 'Página de blog';
     $menu_articles_sub = $results['menu_articles_sub'] ?? 'tu contenido';
     $menu_about = $results['menu_about'] ?? 'Sobre mi:';
+    $articles = $results['articles'] ?? 'articulos';
 
 } catch (PDOException $e) {
     $menu_home = 'Inicio';
     $menu_articles_main = 'Página de blog';
     $menu_articles_sub = 'tu contenido';
     $menu_about = 'Sobre mi:';
+    $articles = 'articulos';
 }
 
 ?>
@@ -34,7 +36,11 @@ try {
             <br>
             <small><?php echo htmlspecialchars($menu_articles_sub); ?></small></a></li>
     <li><a href="<?php echo BASE_URL; ?>/public/about.php"
-            class="menuBlogLink"><?php echo htmlspecialchars($menu_about); ?></a></li>
+            class="menuBlogLink"><strong><?php echo htmlspecialchars($menu_about); ?></strong></a>
+        <br> <mark>Y</mark> <br>
+        <a
+            href="<?php echo BASE_URL; ?>/admin/editorParaArticulos/factory/view_post.php"><?php echo htmlspecialchars($articles); ?></a>
+    </li>
 </ul>
 <link href="https://fonts.cdnfonts.com/css/frijole" rel="stylesheet">
 <style>

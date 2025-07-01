@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../../components/factoryForComponents.php';
 require_once __DIR__ . '/../../../router.php';
 
 $header = FactoryForComponents::renderComponents('header');
+$footer = FactoryForComponents::renderComponents('footer');
 
 $parser = new Parsedown();
 
@@ -37,6 +38,11 @@ if (isset($_GET['post'])) {
             font-family: sans-serif;
             padding: 20px;
             background: hsl(34, 96.50%, 77.50%);
+        }
+
+        #section_post {
+            width: 65%;
+            margin: 1rem auto;
         }
 
         .post {
@@ -125,6 +131,7 @@ if (isset($_GET['post'])) {
 
 <body>
     <?php $header->pageComponents(); ?>
+    <main id="subir">
     <div id="main">
         <section id="section_post">
             <?php
@@ -185,6 +192,10 @@ if (isset($_GET['post'])) {
             }
             ?>            
         </aside>
+    </div>
+    </main>
+    <div id="footer">
+        <?php $footer->pageComponents(); ?>
     </div>
 </body>
 

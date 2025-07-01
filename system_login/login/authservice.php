@@ -30,6 +30,9 @@ class AuthService
         }
         session_unset();
         session_destroy();
+        setcookie("PHPSESSID", "", time() - 3600, "/");
+        header('Location: ../login/login.php');
+        exit;
     }
 
     public function isLoggedIn(): bool
