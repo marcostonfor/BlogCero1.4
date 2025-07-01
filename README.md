@@ -70,13 +70,13 @@ Una vez corridos estos comandos cierras la terminal y desde el Escritorio, haz d
 # Ordenes que se deben ejecutar:
 
 
-sudo chmod 750 BlogCero1.3
-sudo chown -R $USER:www-data BlogCero1.3
+sudo chmod 750 BlogCero1.5
+sudo chown -R $USER:www-data BlogCero1.5
 #--
-sudo find BlogCero1.3 -type d -exec chmod 750 {} \;
-sudo find BlogCero1.3 -type f -exec chmod 770 {} \;
+sudo find BlogCero1.5 -type d -exec chmod 750 {} \;
+sudo find BlogCero1.5 -type f -exec chmod 770 {} \;
 #--
-sudo chmod g+w BlogCero1.3
+sudo chmod g+w BlogCero1.5
 
 # Una vez corridos estos comandos tal cual,
 # debe insistirse en otra carpeta.
@@ -106,19 +106,3 @@ El proyecto necesita un archivo `config.php` en la raíz para conectarse a la ba
 
 En la barra del navegador escribe: `localhost/pryecto/install.php
 debería renderizarse el instalador para la base de datos.
-
-
-## 📂 Estructura de Carpetas
-
-```
-/
-├── admin/                # Panel de administración y lógica de gestión.
-│   ├── editorParaArticulos/ # Editor de Markdown, borradores (Draft) y posts.
-│   └── socialMedia/         # Gestión de iconos de redes sociales.
-├── database/             # Archivos SQL para la estructura de la base de datos.
-├── system_login/         # Lógica central del sistema de usuarios y autenticación.
-│   └── dbSingleton/      # Patrón Singleton para la conexión a la BD.
-├── .gitignore            # Archivos y carpetas ignorados por Git.
-├── config.php            # (Local) Credenciales de la base de datos.
-└── README.md             # Este archivo.
-```
