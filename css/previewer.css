@@ -26,7 +26,8 @@ body {
 
 .markdown-body h1 {
     color: dodgerblue;
-    text-shadow: 0.1vh 0.1vw 12px fuchsia, 0.2vh 0.2vw 17px bisque, 0.1vh 0.1vw 1px black;
+    text-shadow: 0.1vh 0.1vw 12px fuchsia, 0.2vh 0.2vw 17px bisque,
+        0.1vh 0.1vw 1px black;
 }
 
 #navigation nav {
@@ -46,8 +47,36 @@ body {
 }
 
 #navigation nav a {
-    font-family: 'Frijole', sans-serif;
+    font-family: "Frijole", sans-serif;
     text-shadow: 0.1vh 0.1vw 10px antiquewhite;
     font-size: xx-small;
 }
 
+.palabras_reservadas {
+    color: azure;
+    text-align: center;
+}
+
+.markdown-body .palabras_reservadas table {
+    border-collapse: separate;
+    border: 1px solid transparent;
+    margin: 0 auto;
+}
+
+.markdown-body .palabras_reservadas table td,
+.markdown-body .palabras_reservadas table th {
+    empty-cells: hide;
+    border: 1px solid transparent;
+}
+
+.palabras_reservadas table td:nth-last-child(2),
+.palabras_reservadas table td:nth-last-child(1) {
+    padding-left: 5rem;
+    text-align: right;
+}
+
+.palabras_reservadas table td:hover {
+    background-color: azure;
+    cursor: pointer;
+    color: darkslategray;
+}

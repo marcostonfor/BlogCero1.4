@@ -40,31 +40,35 @@ $previewer->setArchivo('00-README.md');
         <?php $header->pageComponents(); ?>
     </div>
     <section style="display: flex; flex-direction: column;">
-    <main id="subir">
-    <section id="navigation">
-        <nav>
-            <?php require_once __DIR__ . '/../dinamicLink/dinamicLink.php'; ?>
-        </nav>
-    </section>
-    <section class="previewermd markdown-body">
-        <?php
-        try {
-            $archivo = $_GET['md'] ?? '00-README.md';
-            $previewer->setArchivo($archivo);
-            $markdown = $previewer->rendermd($archivo);
-            echo $parser->text($markdown);
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-        }
-        ?>
-    </section>
-    </main>
-    <div id="footer" style="display: block;">
-        <?php $footer->pageComponents(); ?>
-    </div>
+        <main id="subir">
+            <section id="navigation">
+                <nav>
+                    <?php require_once __DIR__ . '/../dinamicLink/dinamicLink.php'; ?>
+                </nav>
+            </section>
+            <section class="previewermd markdown-body">
+                <?php
+                try {
+                    $archivo = $_GET['md'] ?? '00-README.md';
+                    $previewer->setArchivo($archivo);
+                    $markdown = $previewer->rendermd($archivo);
+                    echo $parser->text($markdown);
+                } catch (Exception $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+                ?>
+            </section>
+        </main>
+        <div id="footer" style="display: block;">
+            <?php $footer->pageComponents(); ?>
+        </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="assets/tablas.js"></script>
 </body>
 
 </html>
