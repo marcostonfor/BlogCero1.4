@@ -39,10 +39,12 @@
 // Función auxiliar para redirigir con un mensaje
 function redirigirConMensaje($mensaje)
 {
+    $ancla = $_POST['anchor'] ?? '#subidaMedia'; // Valor por defecto
     $_SESSION['flash_message'] = $mensaje;
-    header("Location: " . BASE_URL . "/admin/dashboard.php#subidaPaginas");
+    header("Location: " . BASE_URL . "/admin/dashboard.php" . $ancla);
     exit;
 }
+
 // Incluimos el archivo centralizado con la función. La ruta es relativa a este archivo.
 require_once __DIR__ . '/../core/utils.php';
 

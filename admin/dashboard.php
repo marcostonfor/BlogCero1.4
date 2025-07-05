@@ -26,9 +26,15 @@ $footer = FactoryForComponents::renderComponents('footer');
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/539486a65b.js" crossorigin="anonymous"></script>
+    <!--   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/539486a65b.js" crossorigin="anonymous"></script> -->
     <link rel="shortcut icon" href="../favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <style>
         /* Estilos para los mensajes de notificación (flash message) */
         .flash-message {
@@ -41,6 +47,7 @@ $footer = FactoryForComponents::renderComponents('footer');
             border-color: #4b545d;
         }
     </style>
+    <script src="script.js"></script>
 </head>
 
 <body>
@@ -56,6 +63,7 @@ $footer = FactoryForComponents::renderComponents('footer');
                 <button class="tablinks" onclick="openTab(event, 'editor')">Editor para artículos</button>
                 <button class="tablinks" onclick="openTab(event, 'config')">Configuraciones</button>
                 <button class="tablinks" onclick="openTab(event, 'subidaPaginas')">Subida de páginas</button>
+                <button class="tablinks" onclick="openTab(event, 'subidaMedia')">Subida de media</button>
                 <button class="tablinks" onclick="openTab(event, 'gestionPaginas')">Gestión de contenidos</button>
             </div>
         </aside>
@@ -87,6 +95,10 @@ $footer = FactoryForComponents::renderComponents('footer');
                 <h3>Subida de contenidos</h3>
                 <?php require_once __DIR__ . '/subirArchivos/subirArchivo.php'; ?>
             </div>
+            <div id="subidaMedia" class="tabcontent">
+                <h3>Subida de medios</h3>
+                <?php require_once __DIR__ . '/subirMedia/subirMedia.php'; ?>
+            </div>
             <div id="gestionPaginas" class="tabcontent">
                 <h3>Gestión de contenidos</h3>
                 <?php require_once __DIR__ . '/core/crearDirectorioYfichero.php'; ?>
@@ -96,85 +108,26 @@ $footer = FactoryForComponents::renderComponents('footer');
     <div id="footer">
         <?php $footer->pageComponents(); ?>
     </div>
-    <script>
-        // Función global para cambiar de pestaña, llamada por los botones.
-        function openTab(evt, tabName) {
-            // Ocultar todo el contenido de las pestañas
-            const tabcontent = document.getElementsByClassName("tabcontent");
-            for (let i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+    <script type="module">
+        import { SeleccionDetector } from '../dist/SeleccionDetector.js';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const archivos = document.querySelector(".archivos"); // selector por clase
+            if (archivos) {
+                new SeleccionDetector(".archivos"); // también con punto
             }
-
-            // Quitar la clase "active" de todos los botones de pestaña
-            const tablinks = document.getElementsByClassName("tablinks");
-            for (let i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-
-            // Mostrar la pestaña actual y añadir la clase "active" al botón
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        // Se ejecuta cuando el DOM está completamente cargado.
-        document.addEventListener("DOMContentLoaded", function () {
-
-            // Lógica para inicializar las pestañas
-            function initTabs() {
-                const hash = window.location.hash.substring(1);
-                let buttonToClick;
-
-                if (hash) {
-                    // Busca un botón que corresponda al hash en la URL.
-                    buttonToClick = document.querySelector(`.tablinks[onclick*="'${hash}'"]`);
-                }
-
-                // Si no se encuentra un botón para el hash (o no hay hash), usa el predeterminado.
-                if (!buttonToClick) {
-                    buttonToClick = document.getElementById("defaultOpen");
-                }
-
-                // Simula un clic en el botón para abrir la pestaña correcta.
-                if (buttonToClick) {
-                    buttonToClick.click();
-                }
-            }
-
-            // Lógica para manejar los mensajes flash que se desvanecen
-            function initFlashMessages() {
-                const flash = document.querySelector(".flash-message");
-                if (flash) {
-                    setTimeout(() => {
-                        flash.style.transition = "opacity 0.6s ease";
-                        flash.style.opacity = 0;
-                        // Espera a que termine la transición para eliminar el elemento.
-                        setTimeout(() => flash.remove(), 600);
-                    }, 5000); // 5 segundos
-                }
-            }
-
-            // Lógica para los checkboxes de iconos de redes sociales
-            function initSocialMediaCheckboxes() {
-                // Usar un selector más específico para evitar conflictos
-                const checkboxes = document.querySelectorAll('#socialMedia input[type="checkbox"]');
-                checkboxes.forEach(function (checkbox) {
-                    checkbox.addEventListener('change', function () {
-                        const maxSeleccionados = 5;
-                        const seleccionados = document.querySelectorAll('#socialMedia input[type="checkbox"]:checked').length;
-                        if (seleccionados > maxSeleccionados) {
-                            this.checked = false; // Desmarca el checkbox actual
-                            alert('Solo puedes seleccionar un máximo de ' + maxSeleccionados + ' iconos.');
-                        }
-                    });
-                });
-            }
-
-            // Inicializar funcionalidades
-            initTabs();
-            initFlashMessages();
-            initSocialMediaCheckboxes();
         });
     </script>
+
 </body>
 
 </html>

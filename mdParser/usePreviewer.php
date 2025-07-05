@@ -51,8 +51,12 @@ $previewer->setArchivo('00-README.md');
                 try {
                     $archivo = $_GET['md'] ?? '00-README.md';
                     $previewer->setArchivo($archivo);
-                    $markdown = $previewer->rendermd($archivo);
-                    echo $parser->text($markdown);
+                    // 1. Obtenemos el contenido crudo del archivo Markdown.
+                    $markdown_raw = $previewer->rendermd($archivo);
+                    // 2. (EL CAMBIO) Reemplazamos el placeholder por la URL base real.
+                    $markdown_procesado = str_replace('{{BASE_URL}}', BASE_URL, $markdown_raw);
+                    // 3. Pasamos el contenido ya procesado al parser.
+                    echo $parser->text($markdown_procesado);
                 } catch (Exception $e) {
                     echo "Error: " . $e->getMessage();
                 }

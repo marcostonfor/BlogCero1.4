@@ -9,11 +9,11 @@ require_once __DIR__ . '/../helpers/estructuraDirectorioMD.php';
 <div class="container">
     <div class="row mt-5">
         <div class="col-sm-12 col-md-5 subir">
-            <form enctype="multipart/form-data" action="<?php echo BASE_URL; ?>/admin/subirArchivos/subida.php"
+            <form enctype="multipart/form-data" action="<?php echo BASE_URL; ?>/admin/subirMedia/subir.php"
                 method="POST">
                 <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
                 <h5><i class="fa fa-file"></i> Seleccione el archivo a subir: </h5>
-                <input type="hidden" name="anchor" value="#subidaPaginas">
+                <input type="hidden" name="anchor" value="#subidaMedia">
                 <hr />
                 <input name="fichero_usuario[]" type="file" multiple />
                 <button class="btn btn-success mt-2" type="submit"><i class="fa fa-upload"></i> Subir
@@ -21,11 +21,11 @@ require_once __DIR__ . '/../helpers/estructuraDirectorioMD.php';
             </form>
         </div>
 
-        <div class="col-sm-12 col-md-6  archivos subidaPaginas">
+        <div class="col-sm-12 col-md-6  archivos subidaMedia">
             <h5><i class="fa fa-archive "></i> Archivos cargados al servidor</h5>
             <hr />
             <?php $dir_subida = realpath(__DIR__ . '/../../MD/Subidasmd');
-            $carpeta = glob($dir_subida . '/*.md');
+            $carpeta = glob($dir_subida . '/*.{jpg,jpeg,png,gif,bmp,webp,svg,mp3,wav,ogg,mp4,avi,mkv,webm,mov,m4a}', GLOB_BRACE);
             echo "<table class='table-responsive' border='1'>";
             echo "<tr>
 				<th>

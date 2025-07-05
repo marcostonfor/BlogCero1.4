@@ -7,3 +7,6 @@ define('ROOT_PATH', __DIR__);
 // El router ahora depende de config.php para obtener las constantes.
 // Esto asegura que la configuración se carga una sola vez.
 require_once ROOT_PATH . '/config.php';
+
+// Cargar helpers globales, como la función asset().
+require_once ROOT_PATH . '/core/url_helper.php';

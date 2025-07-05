@@ -38,7 +38,7 @@ function mostrarContenido(string $dir, string $raiz, array $rutasProtegidas, str
             $contenidoInt = mostrarContenido($rutaAbs, $raiz, $rutasProtegidas, $rutaRelPath);
 
             $html .= '<li class="padre-submenu">';
-            $html .= '<span>📁 ' . htmlspecialchars($item) . '</span>';
+            $html .= '<a href="#" id="preview-image">📁 ' . htmlspecialchars($item) . '</a>';
 
             if (!$esProtegida) {
                 $html .= '<form method="POST" action="' . BASE_URL . '/admin/core/procesar_contenido.php" onsubmit="return confirm(\'¿Eliminar carpeta ' . htmlspecialchars($item) . '?\');" style="display:inline-block;margin-left:10px;">';
@@ -55,13 +55,18 @@ function mostrarContenido(string $dir, string $raiz, array $rutasProtegidas, str
 
             $html .= '</li>';
         } else {
-            $html .= '<li>';
-            $html .= '<span>📄 ' . htmlspecialchars($item) . '</span>';
-            $html .= '<form method="POST" action="' . BASE_URL . '/admin/core/procesar_contenido.php" onsubmit="return confirm(\'¿Eliminar archivo ' . htmlspecialchars($item) . '?\');" style="display:inline-block;margin-left:10px;">';
+            $html .= '<li id="preview-container">';
+
+            // El nombre del archivo (`$item`) está dentro de un enlace <a> para editarlo.
+            $rutaEditar = BASE_URL . '/admin/dashboard.php?archivo=' . urlencode($rutaRelPath) . '#editor';
+            $html .= '📄 <a id="" href="' . $rutaEditar . '" title="Editar ' . htmlspecialchars($item) . '">' . htmlspecialchars($item) . '</a>';
+
+            // El formulario de eliminar, separado y funcional, con su propio input.
+            $html .= '<form method="POST" action="' . BASE_URL . '/admin/core/procesar_contenido.php" onsubmit="return confirm(\'¿Estás seguro de que quieres eliminar ' . htmlspecialchars($item) . '?\');" style="display:inline-block; margin-left:15px;">';
             $html .= '<input type="hidden" name="form_eliminar_contenido" value="1">';
             $html .= '<input type="hidden" name="path" value="' . htmlspecialchars($rutaRel) . '">';
             $html .= '<input type="hidden" name="nombre" value="' . htmlspecialchars($item) . '">';
-            $html .= '<button type="submit" class="btn-eliminar">Eliminar archivo 🗑️</button>';
+            $html .= '<button type="submit" class="btn-eliminar" title="Eliminar ' . htmlspecialchars($item) . '">🗑️</button>';
             $html .= '</form>';
             $html .= '</li>';
         }
@@ -117,9 +122,9 @@ if ($raizMD !== false) {
     }
 
     .explorador-gestion li {
-        /* display: flex;
+        display: flex;
         justify-content: flex-start;
-        align-items: center; */
+        align-items: center;
         padding: 8px 12px;
         margin: 4px 0;
         border-radius: 4px;
@@ -134,9 +139,10 @@ if ($raizMD !== false) {
         display: none;
     }
 
-    .explorador-gestion li.padre-submenu:hover > ul.submenu {
+    .explorador-gestion li.padre-submenu:hover>ul.submenu {
         display: block;
     }
+
     .explorador-gestion li>span {
         font-weight: 500;
         color: #333;
@@ -162,3 +168,34 @@ if ($raizMD !== false) {
         background-color: #cc0000;
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const previewContainer = document.getElementById('preview-container');
+        const previewImage = document.getElementById('preview-image');
+
+        document.querySelectorAll('[data-preview]').forEach(link => {
+            link.addEventListener('mouseover', (e) => {
+                const imageUrl = link.getAttribute('data-preview');
+                previewImage.src = imageUrl;
+                previewContainer.style.display = 'block';
+            });
+
+            link.addEventListener('mousemove', (e) => {
+                // Verifica que las coordenadas sean válidas
+                const mouseX = e.pageX || e.clientX + window.scrollX;
+                const mouseY = e.pageY || e.clientY + window.scrollY;
+
+                // Asigna las posiciones al contenedor de previsualización
+                previewContainer.style.left = (mouseX + 15) + 'px';
+                previewContainer.style.top = (mouseY + 15) + 'px';
+            });
+
+            link.addEventListener('mouseout', () => {
+                previewContainer.style.display = 'none';
+                previewImage.src = '';
+            });
+        });
+    });
+
+</script>

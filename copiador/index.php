@@ -30,7 +30,7 @@ function construirArbolDeArchivos($dir, $basePath = '')
         if (is_dir($path)) {
             // Si es un directorio, lo muestra y llama a la función de nuevo (recursividad).
             $html .= '<li><span class="folder" data-path="' . htmlspecialchars($relativePath) . '/">' . htmlspecialchars($item) . '</span>';
-            $html .= construirArbolDeArchivos($path, $relativePath . '/');
+            $html .= construirArbolDeArchivos($path, $relativePath . '/'); // Llamada recursiva
             $html .= '</li>';
         } else {
             // Si es un archivo, simplemente lo muestra.
@@ -94,8 +94,6 @@ $directorioRaiz = realpath(__DIR__ . '/../MD');
             </div>
         </div>
     </div>
-
-    <script src="script.js"></script>
 
 </body>
 </html>
